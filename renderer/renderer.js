@@ -30,11 +30,9 @@ function createRenderer(ctx, size) {
         break;
 
       case 'LICKING':
-        // Alternate between two tongue frames every 12 frames (~5 fps flicker)
+        // Alternate between two tongue frames every 12 frames (~5 fps)
         const tongueFrame = Math.floor(currentFrame / 12) % 2;
         imageToDraw = tongueFrame === 0 ? tongueImg1 : tongueImg2;
-        wagAngle = Math.sin(currentFrame * 0.15) * 5;
-        rotation = wagAngle;
         break;
 
       case 'LYING_DOWN':
