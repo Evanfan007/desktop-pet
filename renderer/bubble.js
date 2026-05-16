@@ -9,24 +9,21 @@ function createBubble(container) {
     el = document.createElement('div');
     el.textContent = '520，我爱你';
     el.style.cssText = `
-      position: absolute;
-      bottom: 100%;
-      left: 50%;
-      transform: translateX(-50%);
       background: linear-gradient(135deg, #ff6b9d, #ff8a65);
       color: #fff;
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 12px;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
       white-space: nowrap;
       box-shadow: 0 4px 16px rgba(255,107,157,0.4);
       opacity: 0;
       transition: opacity 0.3s ease;
       pointer-events: none;
+      position: relative;
     `;
 
-    // Tail triangle
+    // Tail triangle pointing down at the pet
     const tail = document.createElement('div');
     tail.style.cssText = `
       position: absolute;
@@ -46,7 +43,6 @@ function createBubble(container) {
       el.style.opacity = '1';
     });
 
-    // Auto-hide after 2s
     setTimeout(() => hide(), 2000);
   }
 

@@ -1,15 +1,17 @@
 function createRenderer(ctx, size) {
   let baseImg = null;
-  let tongueImg = null;
+  let tongueImg1 = null;
+  let tongueImg2 = null;
   let lieImg = null;
   let currentFrame = 0;
   let bounceOffset = 0;
   let wagAngle = 0;
   let animStartFrame = 0;
 
-  function setImages(base, tongue, lie) {
+  function setImages(base, tongue1, tongue2, lie) {
     baseImg = base;
-    tongueImg = tongue;
+    tongueImg1 = tongue1;
+    tongueImg2 = tongue2;
     lieImg = lie;
   }
 
@@ -28,7 +30,9 @@ function createRenderer(ctx, size) {
         break;
 
       case 'LICKING':
-        imageToDraw = tongueImg;
+        // Alternate between two tongue frames every 12 frames (~5 fps flicker)
+        const tongueFrame = Math.floor(currentFrame / 12) % 2;
+        imageToDraw = tongueFrame === 0 ? tongueImg1 : tongueImg2;
         wagAngle = Math.sin(currentFrame * 0.15) * 5;
         rotation = wagAngle;
         break;

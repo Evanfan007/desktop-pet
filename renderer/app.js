@@ -16,11 +16,15 @@
 
   createInteractions(canvas, stateMachine, renderer, bubble);
 
-  loadImages(['assets/base.png', 'assets/tongue.png', 'assets/lie.png'])
+  loadImages(['../assets/base.png', '../assets/tongue.png', '../assets/tongue2.png', '../assets/lie.png'])
     .then(images => {
-      renderer.setImages(images[0], images[1], images[2]);
+      console.log('images loaded OK');
+      renderer.setImages(images[0], images[1], images[2], images[3]);
       stateMachine.transition('IDLE');
       startLoop();
+    })
+    .catch(err => {
+      console.error('IMAGE LOAD FAILED:', err.message);
     });
 
   function startLoop() {
@@ -35,18 +39,13 @@
     return Promise.all(paths.map(p => {
       return new Promise((resolve, reject) => {
         const img = new Image();
-        img.onload = () => resolve(img);
+        img.onload = () => {
+          console.log('loaded:', p);
+          resolve(img);
+        };
         img.onerror = () => {
-          // Fallback: create a colored placeholder
-          const c = document.createElement('canvas');
-          c.width = 200; c.height = 200;
-          const cx = c.getContext('2d');
-          cx.fillStyle = '#f4c542';
-          cx.fillRect(0, 0, 200, 200);
-          cx.fillStyle = '#333';
-          cx.font = '14px sans-serif';
-          cx.fillText(p, 10, 100);
-          resolve(c);
+          console.error('FAILED to load:', p);
+          reject(new Error('Failed to load ' + p));
         };
         img.src = p;
       });

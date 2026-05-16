@@ -5,13 +5,14 @@ let mainWindow;
 
 function createWindow() {
   const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
-  const winSize = 200; // ~200px tall, square image
+  const winW = 200;
+  const winH = 280; // extra 80px above for speech bubble
 
   mainWindow = new BrowserWindow({
-    width: winSize,
-    height: winSize,
-    x: screenWidth - winSize - 40,
-    y: screenHeight - winSize - 40,
+    width: winW,
+    height: winH,
+    x: screenWidth - winW - 40,
+    y: screenHeight - winH - 40,
     frame: false,
     transparent: true,
     alwaysOnTop: true,
@@ -26,6 +27,12 @@ function createWindow() {
   });
 
   mainWindow.setAlwaysOnTop(true, 'floating');
+
+  // Forward renderer console to terminal
+  mainWindow.webContents.on('console-message', (_event, _level, message) => {
+    console.log('[renderer]', message);
+  });
+
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 }
 
