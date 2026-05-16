@@ -4,10 +4,11 @@
   "description": "Desktop pet — floating dog companion",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "cross-env ELECTRON_RUN_AS_NODE= electron .",
     "build": "electron-builder --win portable"
   },
   "devDependencies": {
+    "cross-env": "^7.0.0",
     "electron": "^28.0.0",
     "electron-builder": "^25.0.0"
   }
