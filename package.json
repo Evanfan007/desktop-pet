@@ -2,10 +2,36 @@
   "name": "desktop-pet",
   "version": "1.0.0",
   "description": "Desktop pet — floating dog companion",
+  "author": "Desktop Pet Contributors <dev@desktop-pet.local>",
   "main": "main.js",
   "scripts": {
     "start": "cross-env ELECTRON_RUN_AS_NODE= electron .",
-    "build": "electron-builder --win portable"
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "build:mac": "electron-builder --mac",
+    "build:all": "electron-builder --win --linux --mac"
+  },
+  "build": {
+    "appId": "com.desktop-pet.app",
+    "productName": "Desktop Pet",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": ["portable", "nsis"]
+    },
+    "mac": {
+      "target": ["dmg", "zip"]
+    },
+    "linux": {
+      "target": ["AppImage", "deb"]
+    }
   },
   "devDependencies": {
     "cross-env": "^7.0.0",
