@@ -4,10 +4,11 @@
   "description": "Desktop pet — floating dog companion",
   "main": "main.js",
   "scripts": {
-    "start": "ELECTRON_RUN_AS_NODE= npx electron . --disable-gpu-sandbox",
-    "build": "npx electron-builder --win portable"
+    "start": "electron .",
+    "build": "electron-builder --win portable"
   },
   "devDependencies": {
-    "electron": "^28.0.0"
+    "electron": "^28.0.0",
+    "electron-builder": "^25.0.0"
   }
 }
