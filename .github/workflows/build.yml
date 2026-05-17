@@ -1,5 +1,8 @@
 name: Build
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
@@ -16,6 +19,8 @@ jobs:
           node-version: '20'
       - run: npm ci
       - run: npm run build:linux
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v4
         with:
           name: linux-artifacts
@@ -34,6 +39,8 @@ jobs:
           node-version: '20'
       - run: npm ci
       - run: npm run build:win
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v4
         with:
           name: windows-artifacts
@@ -48,6 +55,8 @@ jobs:
           node-version: '20'
       - run: npm ci
       - run: npm run build:mac
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/upload-artifact@v4
         with:
           name: macos-artifacts
