@@ -13,7 +13,7 @@ function createBubble(container) {
       color: #fff;
       padding: 6px 14px;
       border-radius: 12px;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: bold;
       white-space: nowrap;
       box-shadow: 0 4px 16px rgba(255,107,157,0.4);

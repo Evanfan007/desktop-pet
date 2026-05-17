@@ -37,16 +37,24 @@ function createWindow() {
 
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
 
+  // Context menu (works on all platforms regardless of tray support)
+  const contextMenu = Menu.buildFromTemplate([
+    { label: '显示', click: () => { mainWindow.show(); mainWindow.focus(); } },
+    { type: 'separator' },
+    { label: '退出', click: () => { app.quit(); } }
+  ]);
+
+  // Right-click on window to open menu
+  mainWindow.webContents.on('context-menu', () => {
+    contextMenu.popup({ window: mainWindow });
+  });
+
   // System tray
   const iconPath = path.join(__dirname, 'assets', 'tray-icon.png');
   try {
-    tray = new Tray(iconPath);
+    const icon = nativeImage.createFromPath(iconPath);
+    tray = new Tray(icon);
     tray.setToolTip('桌面宠物');
-    const contextMenu = Menu.buildFromTemplate([
-      { label: '显示', click: () => { mainWindow.show(); mainWindow.focus(); } },
-      { type: 'separator' },
-      { label: '退出', click: () => { app.quit(); } }
-    ]);
     tray.setContextMenu(contextMenu);
     tray.on('click', () => {
       if (mainWindow.isVisible()) {
@@ -76,6 +84,10 @@ ipcMain.on('move-window', (_event, dx, dy) => {
   const newX = Math.max(0, Math.min(screenWidth - 150, x + dx));
   const newY = Math.max(0, Math.min(screenHeight - 150, y + dy));
   mainWindow.setPosition(newX, newY);
+});
+
+ipcMain.on('app-quit', () => {
+  app.quit();
 });
 
 app.on('before-quit', () => {
