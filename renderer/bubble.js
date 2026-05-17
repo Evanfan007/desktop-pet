@@ -7,7 +7,7 @@ function createBubble(container) {
     showing = true;
 
     el = document.createElement('div');
-    el.textContent = '520，我爱你';
+    el.textContent = '小蝴蝶，520快乐！';
     el.style.cssText = `
       background: linear-gradient(135deg, #ff6b9d, #ff8a65);
       color: #fff;

@@ -1,11 +1,11 @@
-function createInteractions(canvas, stateMachine, renderer, bubble) {
+function createInteractions(canvas, stateMachine, renderer, bubble, size) {
   let isDragging = false;
   let dragStartX = 0;
   let dragStartY = 0;
   let mouseMoved = false;
 
-  // Head oval zone (percentages of 200px image)
-  const headZone = { cx: 100, cy: 60, rx: 70, ry: 50 };
+  // Head oval zone (proportional to image size)
+  const headZone = { cx: size * 0.5, cy: size * 0.30, rx: size * 0.35, ry: size * 0.25 };
 
   function isInHeadZone(mx, my) {
     const dx = (mx - headZone.cx) / headZone.rx;

@@ -1,12 +1,14 @@
-const { app, BrowserWindow, ipcMain, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, screen, Tray, Menu, nativeImage } = require('electron');
 const path = require('path');
 
 let mainWindow;
+let tray = null;
+let isQuitting = false;
 
 function createWindow() {
   const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
-  const winW = 200;
-  const winH = 280; // extra 80px above for speech bubble
+  const winW = 150;
+  const winH = 150;
 
   mainWindow = new BrowserWindow({
     width: winW,
@@ -34,15 +36,50 @@ function createWindow() {
   });
 
   mainWindow.loadFile(path.join(__dirname, 'renderer', 'index.html'));
+
+  // System tray
+  const iconPath = path.join(__dirname, 'assets', 'tray-icon.png');
+  try {
+    tray = new Tray(iconPath);
+    tray.setToolTip('桌面宠物');
+    const contextMenu = Menu.buildFromTemplate([
+      { label: '显示', click: () => { mainWindow.show(); mainWindow.focus(); } },
+      { type: 'separator' },
+      { label: '退出', click: () => { app.quit(); } }
+    ]);
+    tray.setContextMenu(contextMenu);
+    tray.on('click', () => {
+      if (mainWindow.isVisible()) {
+        mainWindow.focus();
+      } else {
+        mainWindow.show();
+        mainWindow.focus();
+      }
+    });
+  } catch (err) {
+    console.error('Tray creation failed:', err.message);
+  }
+
+  // Minimize to tray instead of closing
+  mainWindow.on('close', (event) => {
+    if (!isQuitting) {
+      event.preventDefault();
+      mainWindow.hide();
+    }
+  });
 }
 
 ipcMain.on('move-window', (_event, dx, dy) => {
   if (!mainWindow) return;
   const [x, y] = mainWindow.getPosition();
   const { width: screenWidth, height: screenHeight } = screen.getPrimaryDisplay().workAreaSize;
-  const newX = Math.max(0, Math.min(screenWidth - 200, x + dx));
-  const newY = Math.max(0, Math.min(screenHeight - 200, y + dy));
+  const newX = Math.max(0, Math.min(screenWidth - 150, x + dx));
+  const newY = Math.max(0, Math.min(screenHeight - 150, y + dy));
   mainWindow.setPosition(newX, newY);
+});
+
+app.on('before-quit', () => {
+  isQuitting = true;
 });
 
 app.whenReady().then(createWindow);

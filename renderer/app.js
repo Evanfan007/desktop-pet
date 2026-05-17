@@ -3,7 +3,7 @@
   const ctx = canvas.getContext('2d');
 
   const dpr = window.devicePixelRatio || 1;
-  const size = 200;
+  const size = 150;
   canvas.width = size * dpr;
   canvas.height = size * dpr;
   canvas.style.width = size + 'px';
@@ -14,7 +14,7 @@
   const renderer = createRenderer(ctx, size);
   const bubble = createBubble(document.getElementById('bubble-container'));
 
-  createInteractions(canvas, stateMachine, renderer, bubble);
+  createInteractions(canvas, stateMachine, renderer, bubble, size);
 
   loadImages(['../assets/base.png', '../assets/tongue.png', '../assets/tongue2.png', '../assets/lie.png'])
     .then(images => {
