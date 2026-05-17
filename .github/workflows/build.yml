@@ -36,7 +36,7 @@ jobs:
       - run: npm run build:win
       - uses: actions/upload-artifact@v4
         with:
-          name: windows-portable
+          name: windows-artifacts
           path: dist/*.exe
 
   build-macos:
@@ -69,7 +69,7 @@ jobs:
           mkdir release
           cp linux-artifacts/*.AppImage release/ 2>/dev/null || true
           cp linux-deb/*.deb release/ 2>/dev/null || true
-          cp windows-portable/*.exe release/ 2>/dev/null || true
+          cp windows-artifacts/*.exe release/ 2>/dev/null || true
           cp macos-artifacts/*.dmg release/ 2>/dev/null || true
           cp macos-zip/*.zip release/ 2>/dev/null || true
       - uses: softprops/action-gh-release@v2
