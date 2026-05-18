@@ -104,7 +104,7 @@ function createRenderer(ctx, size) {
     if (state === 'LYING_DOWN' && butterfly) {
       const bx = size * 0.04;
       const by = size * 0.20;
-      const bSize = size * 0.135;
+      const bSize = size * 0.27;
       ctx.drawImage(butterfly, bx, by, bSize, bSize);
     }
   }
