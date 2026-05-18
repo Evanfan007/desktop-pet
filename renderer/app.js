@@ -20,7 +20,8 @@
     '../assets/base.png',
     '../assets/tongue.png',
     '../assets/tongue2.png',
-    '../assets/lie.png',
+    '../assets/1躺.png',
+    '../assets/2躺.png',
     '../assets/1右起跳.png',
     '../assets/2右腾空.png',
     '../assets/3右回头.png',
@@ -30,7 +31,7 @@
   ])
     .then(images => {
       console.log('images loaded OK');
-      renderer.setImages(images[0], images[1], images[2], images[3], images.slice(4));
+      renderer.setImages(images[0], images[1], images[2], images[3], images[4], images.slice(5));
       stateMachine.transition('IDLE');
       startLoop();
     })

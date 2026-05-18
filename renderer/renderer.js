@@ -2,16 +2,18 @@ function createRenderer(ctx, size) {
   let baseImg = null;
   let tongueImg1 = null;
   let tongueImg2 = null;
-  let lieImg = null;
+  let lieImg1 = null;
+  let lieImg2 = null;
   let jumpFrames = [];
   let currentFrame = 0;
   let animStartFrame = 0;
 
-  function setImages(base, tongue1, tongue2, lie, jumpImgs) {
+  function setImages(base, tongue1, tongue2, lie1, lie2, jumpImgs) {
     baseImg = base;
     tongueImg1 = tongue1;
     tongueImg2 = tongue2;
-    lieImg = lie;
+    lieImg1 = lie1;
+    lieImg2 = lie2;
     jumpFrames = jumpImgs || [];
   }
 
@@ -34,7 +36,8 @@ function createRenderer(ctx, size) {
         break;
 
       case 'LYING_DOWN':
-        imageToDraw = lieImg;
+        const lieFrame = Math.floor(currentFrame / 24) % 2;
+        imageToDraw = lieFrame === 0 ? lieImg1 : lieImg2;
         break;
 
       case 'BOUNCING':
