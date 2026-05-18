@@ -87,7 +87,7 @@ function createRenderer(ctx, size) {
         [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(lieImg1, lieImg2);
         if (butterfly1 && butterfly2) {
           showBF = true;
-          [bfImg1, bfNext, bfAlpha] = drawTwoFrame(butterfly1, butterfly2);
+          [bfImg1, bfNext, bfAlpha] = drawTwoFrame(butterfly1, butterfly2, 6);
           if (bfNext) bfImg2 = bfNext;
         }
         break;
@@ -135,8 +135,8 @@ function createRenderer(ctx, size) {
 
     // Butterfly overlay
     if (showBF) {
-      const bx = size * 0.10;
-      const by = size * 0.02;
+      const bx = size * 0.02;
+      const by = size * 0.01;
       const bSize = size * 0.72;
       if (bfNext) {
         ctx.globalAlpha = bfAlpha;
