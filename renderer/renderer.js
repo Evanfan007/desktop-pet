@@ -135,9 +135,9 @@ function createRenderer(ctx, size) {
 
     // Butterfly overlay
     if (showBF) {
-      const bx = 0;
+      const bx = size * 0.04;
       const by = size * 0.20;
-      const bSize = size * 0.09;
+      const bSize = size * 0.135;
       if (bfNext) {
         ctx.globalAlpha = bfAlpha;
         ctx.drawImage(bfImg1, bx, by, bSize, bSize);
