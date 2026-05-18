@@ -25,17 +25,18 @@ function createRenderer(ctx, size) {
   }
 
   // Draw 2-frame animation with cross-fade interpolation
-  function drawTwoFrame(img1, img2) {
-    const step = Math.floor(currentFrame / framesPerStep);
-    const sub = currentFrame % framesPerStep;
+  function drawTwoFrame(img1, img2, fps) {
+    const fStep = fps ? Math.round(60 / fps) : framesPerStep;
+    const step = Math.floor(currentFrame / fStep);
+    const sub = currentFrame % fStep;
     const idx = step % 2;
     const cur = idx === 0 ? img1 : img2;
     const nxt = idx === 0 ? img2 : img1;
 
-    if (sub < framesPerStep - 2 || framesPerStep <= 2) {
+    if (sub < fStep - 2 || framesPerStep <= 2) {
       return [cur, null, 1];
     }
-    const t = (sub - (framesPerStep - 2)) / 2;
+    const t = (sub - (fStep - 2)) / 2;
     return [cur, nxt, 1 - t];
   }
 
@@ -79,7 +80,7 @@ function createRenderer(ctx, size) {
         break;
 
       case 'LICKING':
-        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(tongueImg1, tongueImg2);
+        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(tongueImg1, tongueImg2, 6);
         break;
 
       case 'LYING_DOWN':
