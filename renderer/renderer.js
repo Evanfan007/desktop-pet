@@ -84,7 +84,7 @@ function createRenderer(ctx, size) {
         break;
 
       case 'LYING_DOWN':
-        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(lieImg1, lieImg2);
+        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(lieImg1, lieImg2, 6);
         if (butterfly1 && butterfly2) {
           showBF = true;
           [bfImg1, bfNext, bfAlpha] = drawTwoFrame(butterfly1, butterfly2, 3);
