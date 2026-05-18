@@ -136,7 +136,7 @@ function createRenderer(ctx, size) {
     // Butterfly overlay
     if (showBF) {
       const bx = 0;
-      const by = 0;
+      const by = size * 0.06;
       const bSize = size * 0.18;
       if (bfNext) {
         ctx.globalAlpha = bfAlpha;
