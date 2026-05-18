@@ -75,9 +75,9 @@ function createRenderer(ctx, size) {
     if (state === 'LYING_DOWN' && butterfly1 && butterfly2) {
       const bfFrame = Math.floor(currentFrame / 10) % 2;
       const bfImg = bfFrame === 0 ? butterfly1 : butterfly2;
-      const bx = size * 0.38;
-      const by = size * 0.08;
-      const bSize = size * 0.18;
+      const bx = size * 0.12;
+      const by = size * 0.02;
+      const bSize = size * 0.36;
       ctx.drawImage(bfImg, bx, by, bSize, bSize);
     }
   }
