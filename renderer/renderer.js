@@ -94,17 +94,19 @@ function createRenderer(ctx, size) {
 
       case 'BOUNCING':
         if (!animStartFrame) animStartFrame = currentFrame;
-        const elapsedStep = Math.floor((currentFrame - animStartFrame) / framesPerStep);
+        const jumpFPS = 6;
+        const jumpStep = Math.round(60 / jumpFPS);
+        const elapsedStep = Math.floor((currentFrame - animStartFrame) / jumpStep);
         const totalSteps = jumpFrames.length * 4;
         if (elapsedStep < totalSteps && jumpFrames.length >= 6) {
           const step = elapsedStep;
-          const sub = (currentFrame - animStartFrame) % framesPerStep;
+          const sub = (currentFrame - animStartFrame) % jumpStep;
           const idx = step % jumpFrames.length;
           const nxtIdx = (idx + 1) % jumpFrames.length;
           imageToDraw = jumpFrames[idx];
-          if (sub >= framesPerStep - 2 && framesPerStep > 2 && elapsedStep < totalSteps - 1) {
+          if (sub >= jumpStep - 2 && jumpStep > 2 && elapsedStep < totalSteps - 1) {
             imageToDraw2 = jumpFrames[nxtIdx];
-            alpha = 1 - (sub - (framesPerStep - 2)) / 2;
+            alpha = 1 - (sub - (jumpStep - 2)) / 2;
           }
         } else if (elapsedStep >= totalSteps) {
           animationDone = true;
