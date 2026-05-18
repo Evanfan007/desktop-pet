@@ -28,8 +28,7 @@
     '../assets/jump4.png',
     '../assets/jump5.png',
     '../assets/jump6.png',
-    '../assets/butterfly1.png',
-    '../assets/butterfly2.png'
+    '../assets/butterfly.png'
   ])
     .then(images => {
       console.log('images loaded OK');
@@ -37,7 +36,7 @@
         images[0], images[1], images[2],
         images[3], images[4],
         images.slice(5, 11),
-        images[11], images[12]
+        images[11]
       );
       stateMachine.transition('IDLE');
       startLoop();
