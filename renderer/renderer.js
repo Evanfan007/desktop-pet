@@ -10,6 +10,9 @@ function createRenderer(ctx, size) {
   let currentFrame = 0;
   let animStartFrame = 0;
 
+  const FPS = 12;
+  const framesPerStep = Math.round(60 / FPS); // 5 frames per step at 60Hz
+
   function setImages(base, tongue1, tongue2, lie1, lie2, jumpImgs, bf1, bf2) {
     baseImg = base;
     tongueImg1 = tongue1;
@@ -21,13 +24,54 @@ function createRenderer(ctx, size) {
     butterfly2 = bf2 || null;
   }
 
+  // Draw 2-frame animation with cross-fade interpolation
+  function drawTwoFrame(img1, img2) {
+    const step = Math.floor(currentFrame / framesPerStep);
+    const sub = currentFrame % framesPerStep;
+    const idx = step % 2;
+    const cur = idx === 0 ? img1 : img2;
+    const nxt = idx === 0 ? img2 : img1;
+
+    if (sub < framesPerStep - 2 || framesPerStep <= 2) {
+      return [cur, null, 1];
+    }
+    const t = (sub - (framesPerStep - 2)) / 2;
+    return [cur, nxt, 1 - t];
+  }
+
+  // Draw N-frame animation with cross-fade (for jump)
+  function drawMultiFrame(images, playCount) {
+    const step = Math.floor(currentFrame / framesPerStep);
+    const sub = currentFrame % framesPerStep;
+    const total = images.length;
+    const maxSteps = total * playCount;
+    if (step >= maxSteps) return [null, null, 0]; // done
+    const idx = step % total;
+    const nxtIdx = (idx + 1) % total;
+    const cur = images[idx];
+    const nxt = images[nxtIdx];
+    if (sub < framesPerStep - 2 || framesPerStep <= 2) {
+      return [cur, null, 1];
+    }
+    const t = (sub - (framesPerStep - 2)) / 2;
+    return [cur, nxt, 1 - t];
+  }
+
   function draw(state) {
     ctx.clearRect(0, 0, size, size);
     currentFrame++;
 
     let imageToDraw = baseImg;
+    let imageToDraw2 = null;
+    let alpha = 1;
     let ox = 0;
     let oy = 0;
+    let showBF = false;
+    let bfImg1 = butterfly1;
+    let bfImg2 = butterfly2;
+    let bfAlpha = 1;
+    let bfNext = null;
+    let animationDone = false;
 
     switch (state) {
       case 'IDLE':
@@ -35,30 +79,36 @@ function createRenderer(ctx, size) {
         break;
 
       case 'LICKING':
-        const tongueFrame = Math.floor(currentFrame / 12) % 2;
-        imageToDraw = tongueFrame === 0 ? tongueImg1 : tongueImg2;
+        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(tongueImg1, tongueImg2);
         break;
 
       case 'LYING_DOWN':
-        const lieFrame = Math.floor(currentFrame / 24) % 2;
-        imageToDraw = lieFrame === 0 ? lieImg1 : lieImg2;
+        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(lieImg1, lieImg2);
+        if (butterfly1 && butterfly2) {
+          showBF = true;
+          [bfImg1, bfNext, bfAlpha] = drawTwoFrame(butterfly1, butterfly2);
+          if (bfNext) bfImg2 = bfNext;
+        }
         break;
 
       case 'BOUNCING':
         if (!animStartFrame) animStartFrame = currentFrame;
-        const elapsed = currentFrame - animStartFrame;
-        const framesPerImage = 8;
-        const totalImages = 6;
-        const playCount = 4;
-        const maxFrames = framesPerImage * totalImages * playCount;
-        if (elapsed < maxFrames && jumpFrames.length >= totalImages) {
-          const idx = Math.min(
-            Math.floor(elapsed / framesPerImage) % totalImages,
-            totalImages - 1
-          );
+        const elapsedStep = Math.floor((currentFrame - animStartFrame) / framesPerStep);
+        const totalSteps = jumpFrames.length * 4;
+        if (elapsedStep < totalSteps && jumpFrames.length >= 6) {
+          const step = elapsedStep;
+          const sub = (currentFrame - animStartFrame) % framesPerStep;
+          const idx = step % jumpFrames.length;
+          const nxtIdx = (idx + 1) % jumpFrames.length;
           imageToDraw = jumpFrames[idx];
+          if (sub >= framesPerStep - 2 && framesPerStep > 2 && elapsedStep < totalSteps - 1) {
+            imageToDraw2 = jumpFrames[nxtIdx];
+            alpha = 1 - (sub - (framesPerStep - 2)) / 2;
+          }
+        } else if (elapsedStep >= totalSteps) {
+          animationDone = true;
+          imageToDraw = baseImg;
         } else {
-          animStartFrame = 0;
           imageToDraw = baseImg;
         }
         break;
@@ -67,18 +117,33 @@ function createRenderer(ctx, size) {
         imageToDraw = baseImg;
     }
 
-    if (state !== 'BOUNCING') animStartFrame = 0;
+    if (state !== 'BOUNCING' || animationDone) animStartFrame = 0;
 
-    ctx.drawImage(imageToDraw, ox, oy, size, size);
+    // Draw main image
+    if (imageToDraw2) {
+      ctx.globalAlpha = 1;
+      ctx.drawImage(imageToDraw, ox, oy, size, size);
+      ctx.globalAlpha = 1 - alpha;
+      ctx.drawImage(imageToDraw2, ox, oy, size, size);
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.drawImage(imageToDraw, ox, oy, size, size);
+    }
 
-    // Butterfly overlay during lying down (above dog's head)
-    if (state === 'LYING_DOWN' && butterfly1 && butterfly2) {
-      const bfFrame = Math.floor(currentFrame / 10) % 2;
-      const bfImg = bfFrame === 0 ? butterfly1 : butterfly2;
-      const bx = size * 0.12;
+    // Butterfly overlay
+    if (showBF) {
+      const bx = size * 0.10;
       const by = size * 0.02;
-      const bSize = size * 0.36;
-      ctx.drawImage(bfImg, bx, by, bSize, bSize);
+      const bSize = size * 0.72;
+      if (bfNext) {
+        ctx.globalAlpha = bfAlpha;
+        ctx.drawImage(bfImg1, bx, by, bSize, bSize);
+        ctx.globalAlpha = 1 - bfAlpha;
+        ctx.drawImage(bfImg2, bx, by, bSize, bSize);
+        ctx.globalAlpha = 1;
+      } else {
+        ctx.drawImage(bfImg1, bx, by, bSize, bSize);
+      }
     }
   }
 
