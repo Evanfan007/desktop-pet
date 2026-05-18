@@ -115,7 +115,6 @@ def cmd_batch(args):
         'sit-source.png': 'base.png',
         'lick1-source.png': 'tongue.png',
         'lick2-source.png': 'tongue2.png',
-        'lie-source.png': 'lie.png',
     }
     for src_name, out_name in mapping.items():
         src_path = os.path.join(source_dir, src_name)

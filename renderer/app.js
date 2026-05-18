@@ -20,14 +20,14 @@
     '../assets/base.png',
     '../assets/tongue.png',
     '../assets/tongue2.png',
-    '../assets/1躺.png',
-    '../assets/2躺.png',
-    '../assets/1右起跳.png',
-    '../assets/2右腾空.png',
-    '../assets/3右回头.png',
-    '../assets/4左起跳.png',
-    '../assets/5左腾空.png',
-    '../assets/6左回头.png'
+    '../assets/lie1.png',
+    '../assets/lie2.png',
+    '../assets/jump1.png',
+    '../assets/jump2.png',
+    '../assets/jump3.png',
+    '../assets/jump4.png',
+    '../assets/jump5.png',
+    '../assets/jump6.png'
   ])
     .then(images => {
       console.log('images loaded OK');
