@@ -27,11 +27,18 @@
     '../assets/jump3.png',
     '../assets/jump4.png',
     '../assets/jump5.png',
-    '../assets/jump6.png'
+    '../assets/jump6.png',
+    '../assets/butterfly1.png',
+    '../assets/butterfly2.png'
   ])
     .then(images => {
       console.log('images loaded OK');
-      renderer.setImages(images[0], images[1], images[2], images[3], images[4], images.slice(5));
+      renderer.setImages(
+        images[0], images[1], images[2],
+        images[3], images[4],
+        images.slice(5, 11),
+        images[11], images[12]
+      );
       stateMachine.transition('IDLE');
       startLoop();
     })

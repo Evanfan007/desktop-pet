@@ -5,16 +5,20 @@ function createRenderer(ctx, size) {
   let lieImg1 = null;
   let lieImg2 = null;
   let jumpFrames = [];
+  let butterfly1 = null;
+  let butterfly2 = null;
   let currentFrame = 0;
   let animStartFrame = 0;
 
-  function setImages(base, tongue1, tongue2, lie1, lie2, jumpImgs) {
+  function setImages(base, tongue1, tongue2, lie1, lie2, jumpImgs, bf1, bf2) {
     baseImg = base;
     tongueImg1 = tongue1;
     tongueImg2 = tongue2;
     lieImg1 = lie1;
     lieImg2 = lie2;
     jumpFrames = jumpImgs || [];
+    butterfly1 = bf1 || null;
+    butterfly2 = bf2 || null;
   }
 
   function draw(state) {
@@ -45,7 +49,7 @@ function createRenderer(ctx, size) {
         const elapsed = currentFrame - animStartFrame;
         const framesPerImage = 8;
         const totalImages = 6;
-        const playCount = 2;
+        const playCount = 4;
         const maxFrames = framesPerImage * totalImages * playCount;
         if (elapsed < maxFrames && jumpFrames.length >= totalImages) {
           const idx = Math.min(
@@ -66,6 +70,16 @@ function createRenderer(ctx, size) {
     if (state !== 'BOUNCING') animStartFrame = 0;
 
     ctx.drawImage(imageToDraw, ox, oy, size, size);
+
+    // Butterfly overlay during lying down (above dog's head)
+    if (state === 'LYING_DOWN' && butterfly1 && butterfly2) {
+      const bfFrame = Math.floor(currentFrame / 10) % 2;
+      const bfImg = bfFrame === 0 ? butterfly1 : butterfly2;
+      const bx = size * 0.38;
+      const by = size * 0.08;
+      const bSize = size * 0.18;
+      ctx.drawImage(bfImg, bx, by, bSize, bSize);
+    }
   }
 
   return { setImages, draw };
