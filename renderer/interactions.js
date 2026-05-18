@@ -64,7 +64,7 @@ function createInteractions(canvas, stateMachine, renderer, bubble, size) {
         bubble.show();
         setTimeout(() => {
           stateMachine.transition(stateMachine.STATES.IDLE);
-        }, 2000);
+        }, 1600);
       }
     }
     isDragging = false;

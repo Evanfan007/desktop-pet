@@ -16,10 +16,21 @@
 
   createInteractions(canvas, stateMachine, renderer, bubble, size);
 
-  loadImages(['../assets/base.png', '../assets/tongue.png', '../assets/tongue2.png', '../assets/lie.png'])
+  loadImages([
+    '../assets/base.png',
+    '../assets/tongue.png',
+    '../assets/tongue2.png',
+    '../assets/lie.png',
+    '../assets/1右起跳.png',
+    '../assets/2右腾空.png',
+    '../assets/3右回头.png',
+    '../assets/4左起跳.png',
+    '../assets/5左腾空.png',
+    '../assets/6左回头.png'
+  ])
     .then(images => {
       console.log('images loaded OK');
-      renderer.setImages(images[0], images[1], images[2], images[3]);
+      renderer.setImages(images[0], images[1], images[2], images[3], images.slice(4));
       stateMachine.transition('IDLE');
       startLoop();
     })
