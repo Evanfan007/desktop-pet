@@ -137,7 +137,7 @@ function createRenderer(ctx, size) {
     if (showBF) {
       const bx = 0;
       const by = 0;
-      const bSize = size * 0.72;
+      const bSize = size * 0.18;
       if (bfNext) {
         ctx.globalAlpha = bfAlpha;
         ctx.drawImage(bfImg1, bx, by, bSize, bSize);
