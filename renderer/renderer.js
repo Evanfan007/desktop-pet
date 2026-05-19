@@ -53,7 +53,7 @@ function createRenderer(ctx, size) {
         break;
 
       case 'LICKING':
-        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(tongueImg1, tongueImg2, 6);
+        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(tongueImg1, tongueImg2, 1.5);
         break;
 
       case 'LYING_DOWN':
