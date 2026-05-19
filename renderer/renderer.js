@@ -57,12 +57,12 @@ function createRenderer(ctx, size) {
         break;
 
       case 'LYING_DOWN':
-        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(lieImg1, lieImg2, 6);
+        [imageToDraw, imageToDraw2, alpha] = drawTwoFrame(lieImg1, lieImg2, 3);
         break;
 
       case 'BOUNCING':
         if (!animStartFrame) animStartFrame = currentFrame;
-        const jumpFPS = 6;
+        const jumpFPS = 1.5;
         const jumpStep = Math.round(60 / jumpFPS);
         const elapsedStep = Math.floor((currentFrame - animStartFrame) / jumpStep);
         const totalSteps = jumpFrames.length * 4;
