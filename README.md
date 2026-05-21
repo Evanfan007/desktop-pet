@@ -90,12 +90,34 @@ Use `--bg-threshold` to adjust background removal sensitivity (default 240, lowe
 ## Platform Notes
 
 - **WSL2**: Tested with WSLg for GUI rendering. GPU sandbox warnings are expected and harmless.
-- **macOS**: Built without Apple Developer signing. To open:
-  1. Drag app from DMG to Applications
-  2. Remove quarantine: `xattr -cr "/Applications/Desktop Pet.app"`
-  3. Right-click the app → Open (first time only)
-  If you see "App is damaged", run step 2 first.
 
+### macOS 安装指南
+
+macOS 版本未签名，首次打开需手动允许。提供两种格式：
+
+**方式一：DMG（推荐，简单）**
+
+1. 下载 `Desktop-Pet-x.x.x-arm64.dmg`
+2. 双击打开 DMG 文件
+3. 将 `Desktop Pet` 拖入 `Applications` 文件夹
+4. 打开 **终端**（在启动台搜索"终端"或 Terminal）
+5. 粘贴以下命令并回车：
+   `xattr -cr /Applications/Desktop\ Pet.app`
+6. 回到 `Applications` 文件夹，**右键**点击 `Desktop Pet` → 选择 **打开**
+7. 弹出提示时点击 **打开** 即可
+
+此后直接双击就能运行，无需重复以上步骤。
+
+**方式二：ZIP（免安装）**
+
+1. 下载 `Desktop-Pet-x.x.x-arm64-mac.zip`
+2. 双击解压得到 `Desktop Pet.app`（可放在桌面或任意位置）
+3. 打开 **终端**，输入 `xattr -cr`（注意后面有空格，不要回车）
+4. 将 `Desktop Pet.app` 从访达拖入终端窗口（会自动补全路径），按回车
+5. **右键**点击 `Desktop Pet.app` → 选择 **打开**
+6. 弹出提示时点击 **打开** 即可
+
+> 如果提示"无法验证开发者"，去 **系统设置 → 隐私与安全性** 页面点击"仍要打开"。
 ## License
 
 MIT
