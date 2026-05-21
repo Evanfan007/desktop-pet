@@ -90,7 +90,11 @@ Use `--bg-threshold` to adjust background removal sensitivity (default 240, lowe
 ## Platform Notes
 
 - **WSL2**: Tested with WSLg for GUI rendering. GPU sandbox warnings are expected and harmless.
-- **macOS**: Built without code signing. On first launch, right-click the app and select "Open" to bypass Gatekeeper.
+- **macOS**: Built without Apple Developer signing. To open:
+  1. Drag app from DMG to Applications
+  2. Remove quarantine: `xattr -cr "/Applications/Desktop Pet.app"`
+  3. Right-click the app → Open (first time only)
+  If you see "App is damaged", run step 2 first.
 
 ## License
 

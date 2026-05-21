@@ -12,6 +12,7 @@
     "build:all": "electron-builder --win --linux --mac"
   },
   "build": {
+    "afterPack": "./scripts/after-pack.js",
     "appId": "com.desktop-pet.app",
     "productName": "Desktop Pet",
     "directories": {
