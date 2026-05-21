@@ -89,6 +89,33 @@ Pipeline steps:
 ### WSL2
 Tested with WSLg. GPU sandbox warnings are harmless.
 
+### Windows Install Guide
+
+**Portable (.exe)**
+
+Download `Desktop-Pet-x.x.x.exe`, double-click to run. No installation needed.
+
+**NSIS Installer**
+
+Download `Desktop-Pet-Setup-x.x.x.exe`, run the installer, follow the prompts. Creates Start Menu shortcuts.
+
+### Linux Install Guide
+
+**AppImage (Recommended)**
+
+1. Download `Desktop-Pet-x.x.x.AppImage`
+2. Make it executable: `chmod +x Desktop-Pet-*.AppImage`
+3. Double-click or run: `./Desktop-Pet-*.AppImage`
+
+**deb (System install)**
+
+```bash
+sudo dpkg -i desktop-pet_*_amd64.deb
+# or: sudo apt install ./desktop-pet_*_amd64.deb
+```
+
+Installs to system with launcher entry.
+
 ### macOS Install Guide
 
 Built without Apple Developer signing. First launch requires manual approval.
@@ -212,6 +239,28 @@ python3 scripts/process_images.py convert assets/sit-source.png assets/base.png
 
 ### WSL2
 通过 WSLg 显示 GUI，GPU 沙箱警告无害。
+
+### Windows 安装指南
+
+**便携版 (.exe)**
+
+下载 `Desktop-Pet-x.x.x.exe`，双击即运行，无需安装。
+
+**安装版 (NSIS)**
+
+下载 `Desktop-Pet-Setup-x.x.x.exe`，运行安装程序，按提示完成。会创建开始菜单快捷方式。
+
+### Linux 安装指南
+
+**AppImage（推荐，绿色版）**
+
+
+
+**deb（系统安装）**
+
+
+
+安装后可在启动器中找到。
 
 ### macOS 安装指南
 
